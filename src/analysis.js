@@ -71,7 +71,15 @@ function cleanData(csv) {
  * @returns {string} - 'positive' if rating is greater than 4, negative is rating is below 2,
  *                      and neutral if it is between 2 and 4.
  */
-function labelSentiment({ rating }) { }
+function labelSentiment({ rating }) {
+    if (rating > 4) {
+        return 'positive';
+    } else if (rating < 2) {
+        return 'negative';
+    } else {
+        return 'neutral';
+    }
+}
 
 /**
  * [TODO] Step 3: Sentiment Analysis by App
@@ -81,7 +89,19 @@ function labelSentiment({ rating }) { }
  * @param {Object} cleaned - the cleaned csv data
  * @returns {{app_name: string, positive: number, neutral: number, negative: number}[]} - An array of objects, each summarizing sentiment counts for an app
  */
-function sentimentAnalysisApp(cleaned) { }
+function sentimentAnalysisApp(cleaned) {
+    const sentimentAnalysisApp = [];
+    cleaned.forEach((row) => {
+        const sentiment = labelSentiment(row);
+        const app = sentimentAnalysisApp.find((app) => app.app_name === row.app_name);
+        if (app) {
+            app[sentiment]++;
+        } else {
+            sentimentAnalysisApp.push({ app_name: row.app_name, positive: 0, neutral: 0, negative: 0 });
+        }
+    });
+    return sentimentAnalysisApp;
+}
 
 /**
  * [TODO] Step 3: Sentiment Analysis by Language
@@ -91,7 +111,19 @@ function sentimentAnalysisApp(cleaned) { }
  * @param {Object} cleaned - the cleaned csv data
  * @returns {{lang_name: string, positive: number, neutral: number, negative: number}[]} - An array of objects, each summarizing sentiment counts for a language
  */
-function sentimentAnalysisLang(cleaned) { }
+function sentimentAnalysisLang(cleaned) {
+    const sentimentAnalysisLang = [];
+    cleaned.forEach((row) => {
+        const sentiment = labelSentiment(row);
+        const lang = sentimentAnalysisLang.find((lang) => lang.lang_name === row.review_language);
+        if (lang) {
+            lang[sentiment]++;
+        } else {
+            sentimentAnalysisLang.push({ lang_name: row.review_language, positive: 0, neutral: 0, negative: 0 });
+        }
+    });
+    return sentimentAnalysisLang;
+}
 
 /**
  * [TODO] Step 4: Statistical Analysis
