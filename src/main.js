@@ -20,7 +20,8 @@ const parsedData = parseData('./src/multilingual_mobile_app_reviews_2025.csv');
  * Step 2: Call the cleanData function
  *      Pass the csv as an argument to the cleanData function.
  */
-
+const cleanedData = cleanData(parsedData);
+console.log(cleanedData);
 /**
  * Step 3: Sentiment Analysis
  *      Call the printSentimentAnalysis function get a summary

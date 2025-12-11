@@ -12,8 +12,7 @@ const papaparse = require('papaparse');
 */
 function parseData(filename) {
     const data = fs.readFileSync(filename, 'utf-8');
-    const csv = papaparse.parse(data);
-    console.log(csv);
+    const csv = papaparse.parse(data, { header: true });
     return csv;
 }
 
@@ -32,7 +31,35 @@ function parseData(filename) {
  * @param {Object} csv - a parsed csv file of app reviews
  * @returns {Object} - a cleaned csv file with proper data types and removed null values
  */
-function cleanData(csv) { }
+function cleanData(csv) {
+    csv.data.filter((row) => {
+        return row.review_id != null && row.user_id != null && row.app_name != null && row.app_category != null && row.review_text != null && row.review_language != null && row.rating != null && row.review_date != null && row.verified_purchase != null && row.device_type != null && row.num_helpful_votes != null && row.user_age != null && row.user_country != null && row.app_version != null;
+    });
+    const filter_data = []
+    csv.data.forEach((row) => {
+        user = {
+            user_id: parseInt(row.user_id),
+            user_age: parseInt(row.user_age),
+            user_country: row.user_country,
+            user_gender: row.user_gender
+        }
+        const obj = {
+            review_id: parseInt(row.review_id),
+            app_name: row.app_name,
+            app_category: row.app_category,
+            review_text: row.review_text,
+            review_language: row.review_language,
+            rating: parseFloat(row.rating),
+            review_date: new Date(row.review_date),
+            verified_purchase: row.verified_purchase == "True" ? true : false,
+            device_type: row.device_type,
+            num_helpful_votes: parseInt(row.num_helpful_votes),
+            user: user
+        }
+        filter_data.push(obj)
+    })
+    return filter_data
+}
 
 /**
  * [TODO] Step 3: Sentiment Analysis
