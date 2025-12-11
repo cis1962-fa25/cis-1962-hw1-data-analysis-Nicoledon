@@ -1,15 +1,21 @@
 /**
  * [TODO] Step 0: Import the dependencies, fs and papaparse
  */
-
+const fs = require('fs');
+const papaparse = require('papaparse');
 /**
  * [TODO] Step 1: Parse the Data
  *      Parse the data contained in a given file into a JavaScript objectusing the modules fs and papaparse.
  *      According to Kaggle, there should be 2514 reviews.
  * @param {string} filename - path to the csv file to be parsed
  * @returns {Object} - The parsed csv file of app reviews from papaparse.
- */
-function parseData(filename) {}
+*/
+function parseData(filename) {
+    const data = fs.readFileSync(filename, 'utf-8');
+    const csv = papaparse.parse(data);
+    console.log(csv);
+    return csv;
+}
 
 /**
  * [TODO] Step 2: Clean the Data
@@ -26,7 +32,7 @@ function parseData(filename) {}
  * @param {Object} csv - a parsed csv file of app reviews
  * @returns {Object} - a cleaned csv file with proper data types and removed null values
  */
-function cleanData(csv) {}
+function cleanData(csv) { }
 
 /**
  * [TODO] Step 3: Sentiment Analysis
@@ -38,7 +44,7 @@ function cleanData(csv) {}
  * @returns {string} - 'positive' if rating is greater than 4, negative is rating is below 2,
  *                      and neutral if it is between 2 and 4.
  */
-function labelSentiment({ rating }) {}
+function labelSentiment({ rating }) { }
 
 /**
  * [TODO] Step 3: Sentiment Analysis by App
@@ -48,7 +54,7 @@ function labelSentiment({ rating }) {}
  * @param {Object} cleaned - the cleaned csv data
  * @returns {{app_name: string, positive: number, neutral: number, negative: number}[]} - An array of objects, each summarizing sentiment counts for an app
  */
-function sentimentAnalysisApp(cleaned) {}
+function sentimentAnalysisApp(cleaned) { }
 
 /**
  * [TODO] Step 3: Sentiment Analysis by Language
@@ -58,7 +64,7 @@ function sentimentAnalysisApp(cleaned) {}
  * @param {Object} cleaned - the cleaned csv data
  * @returns {{lang_name: string, positive: number, neutral: number, negative: number}[]} - An array of objects, each summarizing sentiment counts for a language
  */
-function sentimentAnalysisLang(cleaned) {}
+function sentimentAnalysisLang(cleaned) { }
 
 /**
  * [TODO] Step 4: Statistical Analysis
@@ -75,7 +81,7 @@ function sentimentAnalysisLang(cleaned) {}
  * @returns {{mostReviewedApp: string, mostReviews: number, mostUsedDevice: String, mostDevices: number, avgRating: float}} -
  *          the object containing the answers to the desired summary statistics, in this specific format.
  */
-function summaryStatistics(cleaned) {}
+function summaryStatistics(cleaned) { }
 
 /**
  * Do NOT modify this section!

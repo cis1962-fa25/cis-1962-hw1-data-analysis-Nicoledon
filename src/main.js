@@ -15,7 +15,7 @@ const {
  * Step 1: Call the parseData function
  *      From the analysis.js file, call the parseData method with the correct file path to the data file.
  */
-
+const parsedData = parseData('./src/multilingual_mobile_app_reviews_2025.csv');
 /**
  * Step 2: Call the cleanData function
  *      Pass the csv as an argument to the cleanData function.
