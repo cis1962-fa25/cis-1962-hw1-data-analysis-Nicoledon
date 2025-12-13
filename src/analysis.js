@@ -2,6 +2,7 @@
  * [TODO] Step 0: Import the dependencies, fs and papaparse
  */
 const fs = require('fs');
+const { console } = require('inspector');
 const papaparse = require('papaparse');
 /**
  * [TODO] Step 1: Parse the Data
@@ -140,7 +141,41 @@ function sentimentAnalysisLang(cleaned) {
  * @returns {{mostReviewedApp: string, mostReviews: number, mostUsedDevice: String, mostDevices: number, avgRating: float}} -
  *          the object containing the answers to the desired summary statistics, in this specific format.
  */
-function summaryStatistics(cleaned) { }
+function summaryStatistics(cleaned) {
+    let app_rank = new Map();
+    let max = -1, app_name, rating = 0, decv_max = -1, device_name;
+    cleaned.forEach((row) => {
+        console.log(row.app_name);
+        if (app_rank.has(row.app_name)) {
+            app_rank.get(row.app_name).push({ device_type: row.device_type, rating: row.rating });
+        } else {
+            app_rank.set(row.app_name, [{ device_type: row.device_type, rating: row.rating }]);
+        }
+    })
+    console.log(cleaned);
+    for (let key of app_rank.keys()) {
+        if (app_rank.get(key).length > max) {
+            app_name = key
+        }
+    }
+    let app_device = new Map();
+    for (let val of app_rank.get(app_name)) {
+        if (app_device.has(val.device_type)) {
+            app_device.get(val.device_type).push(val.rating);
+        } else {
+            app_device.set(val.device_type, [val.rating]);
+        }
+        rating += val.rating;
+    }
+    for (let key of app_device.keys()) {
+        console.log(key)
+        if (app_device.get(key).length > decv_max) {
+            device_name = key
+        }
+    }
+    console.log(device_name)
+    return { mostReviewedApp: app_name, mostUsedDevice: device_name, mostDevices: app_device.get(device_name).length, avgRating: rating / app_rank.get(app_name).length }
+}
 
 /**
  * Do NOT modify this section!
